@@ -26,6 +26,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/firebase'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -50,5 +51,16 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  publicRuntimeConfig: {
+    firebase: {
+      apiKey: process.env.FB_API_KEY,
+      authDomain: process.env.FB_AUTH_DOMAIN,
+      projectId: process.env.FB_PROJECT_ID,
+      storageBucket: process.env.FB_STORAGE_BUCKET,
+      messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+      appId: process.env.FB_APP_ID
+    }
   }
 }
