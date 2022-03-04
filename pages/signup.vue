@@ -2,8 +2,8 @@
   <v-row justify="center">
     <v-col cols="12" sm="10">
       <v-card>
-        <v-toolbar dense dark color="primary">
-          <v-toolbar-title>Login</v-toolbar-title>
+        <v-toolbar dense dark color="success">
+          <v-toolbar-title>Sign up</v-toolbar-title>
           <v-spacer />
           <v-btn icon to="/">
             <v-icon>mdi-close</v-icon>
@@ -13,15 +13,14 @@
           <v-form>
             <v-text-field label="Email" />
             <v-text-field label="Password" />
+            <v-text-field label="Confirm Password" />
+            <v-text-field label="Your Name" />
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <nuxt-link to="/signup">
-            Sign up
-          </nuxt-link>
           <v-spacer />
-          <v-btn large color="primary" to="/">
-            Login
+          <v-btn large color="success" to="/">
+            register
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -31,7 +30,7 @@
 
 <script>
 export default {
-  name: 'LoginPage'
+  name: 'SignupPage'
 }
 </script>
 
