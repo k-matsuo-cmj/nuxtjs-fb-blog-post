@@ -31,14 +31,13 @@
 <script>
 export default {
   name: 'IndexPage',
-  data () {
-    return {
-      blogs: [
-        { id: 1, title: 'test', content: 'xxxxxxxx' },
-        { id: 2, title: 'test', content: 'xxxxxxxx' },
-        { id: 3, title: 'test', content: 'xxxxxxxx' }
-      ]
+  computed: {
+    blogs () {
+      return this.$store.state.blogs.blogs
     }
+  },
+  mounted () {
+    this.$store.dispatch('blogs/init')
   }
 }
 </script>

@@ -12,13 +12,13 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-text-field label="Title" />
-              <v-textarea rows="10" label="Content" />
+              <v-text-field v-model="title" label="Title" />
+              <v-textarea v-model="content" rows="10" label="Content" />
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn large color="secondary" to="/">
+            <v-btn large color="secondary" @click="postBlog">
               post
             </v-btn>
           </v-card-actions>
@@ -29,8 +29,29 @@
 </template>
 
 <script>
+import { serverTimestamp } from 'firebase/firestore'
+
 export default {
-  name: 'PostPage'
+  name: 'PostPage',
+  data () {
+    return {
+      title: '',
+      content: ''
+    }
+  },
+  methods: {
+    postBlog () {
+      const blog = {
+        title: this.title,
+        content: this.content,
+        created_at: serverTimestamp(),
+        user_id: this.$store.state.user.uid,
+        user_name: this.$store.state.user.displayName
+      }
+      this.$store.dispatch('blogs/add', blog)
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
