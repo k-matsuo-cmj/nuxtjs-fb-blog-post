@@ -3,9 +3,15 @@
     <v-app-bar app dark color="brown darken-1">
       <v-toolbar-title>Blog Post</v-toolbar-title>
       <v-spacer />
-      <v-btn icon :to="'/login'">
+      <v-btn v-if="!$store.getters.isAuthenticated" icon :to="'/login'">
         <v-icon>
           mdi-account-circle
+        </v-icon>
+      </v-btn>
+      <v-btn v-else icon @click="logout">
+        {{ $store.state.user.displayName }}
+        <v-icon>
+          mdi-dots-vertical
         </v-icon>
       </v-btn>
     </v-app-bar>
@@ -27,6 +33,12 @@ export default {
   name: 'DefaultLayout',
   data () {
     return {
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+        .then(() => this.$router.push('/'))
     }
   }
 }

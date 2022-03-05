@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app'
+import { getApp, getApps, initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
@@ -15,7 +15,7 @@ export default ({ $config }, inject) => {
   }
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig)
+  const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
   // Authenticate
   const auth = getAuth(app)
   // Firestore
