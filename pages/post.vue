@@ -49,7 +49,7 @@ export default {
         user_name: this.$store.state.user.displayName
       }
       this.$store.dispatch('blogs/add', blog)
-      this.$router.push('/')
+        .then(() => this.$router.push('/'))
     }
   }
 }
