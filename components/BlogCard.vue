@@ -18,13 +18,13 @@
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
-    <v-expand-transitio>
+    <v-expand-transition>
       <div v-show="open">
         <v-card-text class="text-caption">
           {{ blog.content }}
         </v-card-text>
       </div>
-    </v-expand-transitio>
+    </v-expand-transition>
   </v-card>
 </template>
 

@@ -24,7 +24,4 @@ export default {
 </script>
 
 <style scoped>
-.v-list {
-  height: 80vh;
-}
 </style>
