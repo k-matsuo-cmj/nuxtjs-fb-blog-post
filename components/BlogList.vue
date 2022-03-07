@@ -25,6 +25,6 @@ export default {
 
 <style scoped>
 .v-list {
-  height: 78vh;
+  height: 80vh;
 }
 </style>

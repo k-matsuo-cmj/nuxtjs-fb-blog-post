@@ -10,14 +10,21 @@
       </div>
     </v-card-text>
     <v-card-actions dense class="pl-4">
-      <v-btn icon x-small>
-        <v-icon>mdi-chevron-down</v-icon>
+      <v-btn icon x-small @click="open = !open">
+        <v-icon>{{ open ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
       </v-btn>
       <v-spacer />
       <v-btn v-if="isMine" icon x-small color="blue" @click="remove">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
+    <v-expand-transitio>
+      <div v-show="open">
+        <v-card-text class="text-caption">
+          {{ blog.content }}
+        </v-card-text>
+      </div>
+    </v-expand-transitio>
   </v-card>
 </template>
 
@@ -25,6 +32,11 @@
 export default {
   props: {
     blog: { type: Object, default: null }
+  },
+  data () {
+    return {
+      open: false
+    }
   },
   computed: {
     created_datetime: ({ $dateFns, blog }) => {
