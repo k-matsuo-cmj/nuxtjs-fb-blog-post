@@ -65,5 +65,9 @@ export default {
       messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
       appId: process.env.FB_APP_ID
     }
+  },
+
+  router: {
+    middleware: 'auth'
   }
 }
