@@ -5,7 +5,7 @@
         <v-toolbar dense dark color="primary">
           <v-toolbar-title>Login</v-toolbar-title>
           <v-spacer />
-          <v-btn icon to="/">
+          <v-btn icon @click="$router.back()">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>

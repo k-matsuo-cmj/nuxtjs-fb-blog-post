@@ -6,7 +6,7 @@
           <v-toolbar dense dark color="secondary">
             <v-toolbar-title>New Blog</v-toolbar-title>
             <v-spacer />
-            <v-btn icon to="/">
+            <v-btn icon @click="$router.back()">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-toolbar>
