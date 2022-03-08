@@ -24,7 +24,14 @@
             <v-icon>mdi-message-reply-text</v-icon>
             <span>{{ commentCount }}</span>
           </v-btn>
-          <v-btn icon small color="success" class="ml-6">
+          <v-btn
+            v-show="$store.getters.isAuthenticated"
+            icon
+            small
+            color="success"
+            class="ml-6"
+            @click="addComment"
+          >
             <v-icon>mdi-comment-edit</v-icon>
           </v-btn>
           <v-spacer />
@@ -60,7 +67,7 @@ export default {
         $store.state.user.uid === blog.user_id
     },
     commentCount: ({ blog }) => {
-      return blog.comments && blog.comements.length ? blog.comements.length : 0
+      return blog.comments && blog.comments.length ? blog.comments.length : 0
     }
   },
   methods: {
@@ -68,6 +75,9 @@ export default {
       if (confirm('Are you sure?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
       }
+    },
+    addComment () {
+      this.$router.push({ path: '/comment', query: { id: this.blog.id } })
     }
   }
 }
