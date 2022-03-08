@@ -1,28 +1,37 @@
 <template>
-  <v-card class="mb-1">
+  <v-card class="mb-1" color="yellow lighten-4" @click="open = !open">
     <v-card-text class="pb-1">
-      <div>
+      <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
-        <span class="font-weight-bold">{{ blog.user_name }}</span>
-      </div>
-      <div class="text-h6">
-        {{ blog.title }}
+        <span class="pl-5 font-weight-bold">{{ blog.user_name }}</span>
       </div>
     </v-card-text>
     <v-card-actions dense class="pl-4">
-      <v-btn icon x-small @click="open = !open">
-        <v-icon>{{ open ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
+      <div class="text-h5" :class="{'text-truncate':!open}">
+        {{ blog.title }}
+      </div>
       <v-spacer />
-      <v-btn v-if="isMine" icon x-small color="blue" @click="remove">
-        <v-icon>mdi-delete</v-icon>
+      <v-btn icon x-small @click.stop="open = !open">
+        <v-icon>{{ open ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
       </v-btn>
     </v-card-actions>
     <v-expand-transition>
       <div v-show="open">
-        <v-card-text class="text-caption">
-          {{ blog.content }}
-        </v-card-text>
+        <v-card-text class="text-caption pre-wrap" v-text="blog.content" />
+        <v-divider />
+        <v-card-actions>
+          <v-btn text x-small color="primary">
+            <v-icon>mdi-message-reply-text</v-icon>
+            <span>{{ commentCount }}</span>
+          </v-btn>
+          <v-btn icon small color="success" class="ml-6">
+            <v-icon>mdi-comment-edit</v-icon>
+          </v-btn>
+          <v-spacer />
+          <v-btn v-if="isMine" icon x-small color="secondary" @click="remove">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-card-actions>
       </div>
     </v-expand-transition>
   </v-card>
@@ -49,6 +58,9 @@ export default {
     isMine: ({ $store, blog }) => {
       return $store.getters.isAuthenticated &&
         $store.state.user.uid === blog.user_id
+    },
+    commentCount: ({ blog }) => {
+      return blog.comments && blog.comements.length ? blog.comements.length : 0
     }
   },
   methods: {
@@ -64,5 +76,8 @@ export default {
 <style scoped>
   .v-card {
     width: 100%;
+  }
+  .pre-wrap {
+    white-space: pre-wrap;
   }
 </style>
