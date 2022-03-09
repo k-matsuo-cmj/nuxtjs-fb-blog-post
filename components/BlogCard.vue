@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-1" color="yellow lighten-4" @click="toggle">
+  <v-card ref="card" class="mb-1" color="yellow lighten-4" @click="toggle">
     <v-card-text class="pb-1">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
@@ -11,9 +11,9 @@
         {{ blog.title }}
       </div>
       <v-spacer />
-      <v-btn icon x-small @click.stop="toggle">
-        <v-icon>{{ open ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
+      <v-icon small>
+        {{ open ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+      </v-icon>
     </v-card-actions>
     <v-expand-transition>
       <div v-show="open">
