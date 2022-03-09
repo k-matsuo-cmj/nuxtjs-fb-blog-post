@@ -2,7 +2,7 @@
   <div>
     <v-list v-if="blogs.length" class="overflow-y-auto">
       <v-list-item v-for="blog in blogs" :key="blog.id">
-        <blog-card :blog="blog" />
+        <blog-card ref="card" :blog="blog" @close="closeAll" />
       </v-list-item>
     </v-list>
     <span v-else>No Blogs...</span>
@@ -19,6 +19,13 @@ export default {
   },
   mounted () {
     this.$store.dispatch('blogs/init')
+  },
+  methods: {
+    closeAll () {
+      for (const i in this.blogs) {
+        this.$refs.card[i].close()
+      }
+    }
   }
 }
 </script>

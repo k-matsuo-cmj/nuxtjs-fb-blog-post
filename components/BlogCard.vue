@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-1" color="yellow lighten-4" @click="open = !open">
+  <v-card class="mb-1" color="yellow lighten-4" @click="toggle">
     <v-card-text class="pb-1">
       <div class="d-inline-block">
         <span>{{ created_datetime }} </span>
@@ -11,7 +11,7 @@
         {{ blog.title }}
       </div>
       <v-spacer />
-      <v-btn icon x-small @click.stop="open = !open">
+      <v-btn icon x-small @click.stop="toggle">
         <v-icon>{{ open ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
       </v-btn>
     </v-card-actions>
@@ -78,6 +78,14 @@ export default {
     },
     addComment () {
       this.$router.push({ path: '/comment', query: { id: this.blog.id } })
+    },
+    toggle () {
+      const open = this.open
+      if (!open) { this.$emit('close') }
+      this.open = !open
+    },
+    close () {
+      this.open = false
     }
   }
 }
