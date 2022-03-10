@@ -35,9 +35,10 @@
             <v-icon>mdi-comment-edit</v-icon>
           </v-btn>
           <v-spacer />
-          <v-btn v-if="isMine" icon x-small color="secondary" @click="remove">
+          <v-btn v-if="isMine" icon x-small color="secondary" @click.stop="remove">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
+          <confirm-dialog ref="delDialog" />
         </v-card-actions>
       </div>
     </v-expand-transition>
@@ -45,7 +46,9 @@
 </template>
 
 <script>
+import ConfirmDialog from './ConfirmDialog.vue'
 export default {
+  components: { ConfirmDialog },
   props: {
     blog: { type: Object, default: null }
   },
@@ -71,8 +74,9 @@ export default {
     }
   },
   methods: {
-    remove () {
-      if (confirm('Are you sure?')) {
+    async remove () {
+      // if (confirm('Are you sure?')) {
+      if (await this.$refs.delDialog.open(`Delete "${this.blog.title}"`, 'Are you sure?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
       }
     },
