@@ -3,11 +3,16 @@
     <v-app-bar app :color="baseColor.color" :dark="baseColor.dark">
       <v-toolbar-title>Blog Post</v-toolbar-title>
       <v-spacer />
-      <v-btn v-if="!$store.getters.isAuthenticated" icon :to="'/login'">
-        <v-icon>
-          mdi-account-circle
-        </v-icon>
-      </v-btn>
+      <v-tooltip v-if="!$store.getters.isAuthenticated" left>
+        <template #activator="{ on }">
+          <v-btn icon :to="'/login'" v-on="on">
+            <v-icon>
+              mdi-account-circle
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>Login</span>
+      </v-tooltip>
       <v-menu v-else bottom transition="slide-y-transition">
         <template #activator="{ on }">
           <v-btn text v-on="on">
