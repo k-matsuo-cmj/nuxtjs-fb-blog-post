@@ -24,8 +24,8 @@ export const actions = {
     const collectionRef = collection(this.$db, 'blogs')
     addDoc(collectionRef, blog)
   },
-  remove (_, id) {
+  async remove (_, id) {
     const documentRef = doc(this.$db, 'blogs', id)
-    deleteDoc(documentRef)
+    await deleteDoc(documentRef)
   }
 }

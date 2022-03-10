@@ -12,7 +12,7 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-text-field v-model="title" label="Title" />
+              <v-text-field v-model="title" label="Title" autofocus />
               <v-textarea v-model="content" rows="10" label="Content" />
             </v-form>
           </v-card-text>
@@ -49,7 +49,10 @@ export default {
         user_name: this.$store.state.user.displayName
       }
       this.$store.dispatch('blogs/add', blog)
-        .then(() => this.$router.push('/'))
+        .then(() => {
+          this.$store.dispatch('snackbar/show', 'Blog posted!')
+          this.$router.push('/')
+        })
     }
   }
 }

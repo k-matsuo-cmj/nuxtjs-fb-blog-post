@@ -78,6 +78,9 @@ export default {
       // if (confirm('Are you sure?')) {
       if (await this.$refs.delDialog.open(`Delete "${this.blog.title}"`, 'Are you sure?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
+          .then(() => {
+            this.$store.dispatch('snackbar/show', 'Blog deleted!')
+          })
       }
     },
     addComment () {

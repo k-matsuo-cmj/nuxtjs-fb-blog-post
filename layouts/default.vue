@@ -40,6 +40,9 @@
         <span>&copy; CyberMissions {{ new Date().getFullYear() }}</span>
       </v-col>
     </v-footer>
+    <v-snackbar v-model="snackbar" timeout="2000" color="primary">
+      {{ $store.state.snackbar.message }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -55,6 +58,14 @@ export default {
       return {
         color: this.$store.getters.isAuthenticated ? 'brown lighten-3' : 'brown darken-1',
         dark: !this.$store.getters.isAuthenticated
+      }
+    },
+    snackbar: {
+      get () {
+        return this.$store.state.snackbar.show
+      },
+      set () {
+        return this.$store.dispatch('snackbar/close')
       }
     }
   },
