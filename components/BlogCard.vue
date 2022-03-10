@@ -40,6 +40,15 @@
           </v-btn>
           <confirm-dialog ref="delDialog" />
         </v-card-actions>
+        <v-card-text v-show="blog.comments" class="text-caption pre-wrap pt-1">
+          <v-list v-for="comment in blog.comments" :key="comment" class="py-1" color="transparent">
+            <v-list-item dense>
+              <v-list-item-content class="py-0">
+                {{ comment.comment }}
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card-text>
       </div>
     </v-expand-transition>
   </v-card>
