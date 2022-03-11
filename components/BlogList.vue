@@ -1,5 +1,6 @@
 <template>
   <div>
+    <blog-search-box v-if="$store.state.blogs.search" />
     <v-list v-if="blogs.length" class="overflow-y-auto">
       <v-list-item v-for="blog in blogs" :key="blog.id">
         <blog-card ref="card" :blog="blog" @close="closeAll" />
@@ -14,7 +15,7 @@ export default {
   name: 'BlogList',
   computed: {
     blogs () {
-      return this.$store.state.blogs.blogs
+      return this.$store.getters['blogs/blogs']
     }
   },
   mounted () {

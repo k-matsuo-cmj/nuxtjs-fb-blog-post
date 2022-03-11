@@ -23,6 +23,10 @@
           </v-btn>
         </template>
         <v-list :color="baseColor.color" :dark="baseColor.dark">
+          <v-list-item :key="'search'" @click="showSearch">
+            <v-icon>mdi-magnify</v-icon>
+            Search
+          </v-list-item>
           <v-list-item :key="'logout'" @click="logout">
             <v-icon>mdi-exit-to-app</v-icon>
             Logout
@@ -72,7 +76,13 @@ export default {
   methods: {
     logout () {
       this.$store.dispatch('logout')
-        .then(() => this.$router.push('/'))
+        .then(() => {
+          this.$store.dispatch('blogs/closeSearchBox')
+          this.$router.push('/')
+        })
+    },
+    showSearch () {
+      this.$store.dispatch('blogs/showSearchBox')
     }
   }
 }

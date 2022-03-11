@@ -1,12 +1,28 @@
 import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
 
 export const state = () => ({
-  blogs: []
+  blogs: [],
+  search: false,
+  searchWord: ''
 })
+
+export const getters = {
+  blogs: state =>
+    state.blogs.filter(blog => !state.searchWord ||
+        blog.title.includes(state.searchWord) ||
+        blog.content.includes(state.searchWord)
+    )
+}
 
 export const mutations = {
   setBlogs (state, blogs) {
     state.blogs = blogs
+  },
+  setSearch (state, flag) {
+    state.search = flag
+  },
+  setSearchWord (state, word) {
+    state.searchWord = word
   }
 }
 
@@ -27,5 +43,15 @@ export const actions = {
   async remove (_, id) {
     const documentRef = doc(this.$db, 'blogs', id)
     await deleteDoc(documentRef)
+  },
+  showSearchBox ({ commit }) {
+    commit('setSearch', true)
+  },
+  doSearch ({ commit }, word) {
+    commit('setSearchWord', word)
+  },
+  closeSearchBox ({ commit }) {
+    commit('setSearch', false)
+    commit('setSearchWord', '')
   }
 }
