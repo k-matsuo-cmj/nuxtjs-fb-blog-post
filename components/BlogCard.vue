@@ -40,8 +40,8 @@
           </v-btn>
           <confirm-dialog ref="delDialog" />
         </v-card-actions>
-        <v-card-text v-show="blog.comments" class="text-caption pre-wrap pt-1">
-          <v-list v-for="comment in blog.comments" :key="comment" class="py-1" color="transparent">
+        <v-card-text v-show="comments.length" class="text-caption pre-wrap pt-1">
+          <v-list v-for="comment in comments" :key="comment.id" class="py-1" color="transparent">
             <v-list-item dense>
               <v-list-item-content class="py-0">
                 {{ comment.comment }}
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import ConfirmDialog from './ConfirmDialog.vue'
 export default {
   components: { ConfirmDialog },
@@ -63,7 +64,8 @@ export default {
   },
   data () {
     return {
-      open: false
+      open: false,
+      comments: []
     }
   },
   computed: {
@@ -78,9 +80,16 @@ export default {
       return $store.getters.isAuthenticated &&
         $store.state.user.uid === blog.user_id
     },
-    commentCount: ({ blog }) => {
-      return blog.comments && blog.comments.length ? blog.comments.length : 0
+    commentCount () {
+      return this.comments.length
     }
+  },
+  mounted () {
+    const commentsRef = collection(this.$db, 'blogs', this.blog.id, 'comments')
+    const commentsQuery = query(commentsRef, orderBy('created_at', 'desc'))
+    onSnapshot(commentsQuery, (querySnapshot) => {
+      this.comments = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+    })
   },
   methods: {
     async remove () {

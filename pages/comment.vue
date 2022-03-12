@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { doc, getDoc, updateDoc } from '@firebase/firestore'
+import { addDoc, collection, doc, getDoc, serverTimestamp } from '@firebase/firestore'
 export default {
   name: 'CommentPage',
   data () {
@@ -50,11 +50,14 @@ export default {
   methods: {
     postComment () {
       const docRef = doc(this.$db, 'blogs', this.blogId)
-      getDoc(docRef).then((doc) => {
-        const data = doc.data().comments || []
-        data.push({ comment: this.comment })
-        updateDoc(docRef, { comments: data })
+      const commentsRef = collection(docRef, 'comments')
+      addDoc(commentsRef, {
+        comment: this.comment,
+        created_at: serverTimestamp(),
+        user_id: this.$store.state.user.uid,
+        user_name: this.$store.state.user.displayName
       })
+        .then(() => this.$store.dispatch('snackbar/show', 'Comment posted!'))
     }
   }
 }
