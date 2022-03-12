@@ -30,10 +30,11 @@
             small
             color="success"
             class="ml-6"
-            @click="addComment"
+            @click.stop="addComment"
           >
             <v-icon>mdi-comment-edit</v-icon>
           </v-btn>
+          <comment-dialog ref="addDialog" :blog="blog" />
           <v-spacer />
           <v-btn v-if="isMine" icon x-small color="secondary" @click.stop="remove">
             <v-icon>mdi-delete</v-icon>
@@ -102,7 +103,8 @@ export default {
       }
     },
     addComment () {
-      this.$router.push({ path: '/comment', query: { id: this.blog.id } })
+      // this.$router.push({ path: '/comment', query: { id: this.blog.id } })
+      this.$refs.addDialog.open()
     },
     toggle () {
       const open = this.open
