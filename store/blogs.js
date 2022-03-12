@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from 'firebase/firestore'
 
 export const state = () => ({
   blogs: [],
@@ -43,6 +43,10 @@ export const actions = {
   async remove (_, id) {
     const documentRef = doc(this.$db, 'blogs', id)
     await deleteDoc(documentRef)
+    getDocs(collection(documentRef, 'comments'))
+      .then(querySnapshot => querySnapshot.forEach((d) => {
+        deleteDoc(d.ref)
+      }))
   },
   showSearchBox ({ commit }) {
     commit('setSearch', true)
