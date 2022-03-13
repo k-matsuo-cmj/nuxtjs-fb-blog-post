@@ -1,18 +1,18 @@
 <template>
   <div>
-    <v-card-text v-show="comments.length" class="text-caption pre-wrap pt-1">
-      <v-list v-for="comment in pageList" :key="comment.id" class="py-1" color="transparent">
-        <v-list-item dense>
-          <v-list-item-content class="py-0">
+    <v-card-text v-show="comments.length" class="text-caption pre-wrap pt-1 comment-box">
+      <v-list v-for="comment in pageList" :key="comment.id" class="py-1 comment-list" color="transparent">
+        <v-list-item dense class="comment-item">
+          <v-list-item-content class="pb-0">
             <v-container>
               <v-row>
-                <v-col cols="8">
+                <v-col cols="12" md="8" class="pa-1">
                   {{ comment.comment }}
                 </v-col>
-                <v-col cols="2" class="font-weight-bold">
+                <v-col cols="6" md="2" class="font-weight-bold">
                   {{ comment.user_name }}
                 </v-col>
-                <v-col cols="2">
+                <v-col cols="6" md="2">
                   {{ formatted_datetime(comment) }}
                 </v-col>
               </v-row>
@@ -21,7 +21,7 @@
         </v-list-item>
       </v-list>
       <div v-show="length > 1" @click.stop>
-        <v-pagination v-model="page" :length="length" circle />
+        <v-pagination v-model="page" :length="length" circle class="pagination" />
       </div>
     </v-card-text>
   </div>
@@ -66,5 +66,11 @@ export default {
 </script>
 
 <style>
-
+  .comment-box>.comment-list:not(:first-child) .comment-item {
+    border-top: 1px dotted #BBBBBB;
+  }
+  .v-pagination__navigation, .v-pagination__item {
+    height: 24px;
+    font-size: .75rem;
+  }
 </style>
