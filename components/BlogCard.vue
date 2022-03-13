@@ -20,28 +20,37 @@
         <v-card-text class="text-caption pre-wrap" v-text="blog.content" />
         <v-divider />
         <v-card-actions>
-          <v-btn text x-small color="primary">
+          <v-btn text x-small color="primary" @click.stop="$refs.commentList.page=1">
             <v-icon>mdi-message-reply-text</v-icon>
             <span>{{ commentCount }}</span>
           </v-btn>
-          <v-btn
-            v-show="$store.getters.isAuthenticated"
-            icon
-            small
-            color="success"
-            class="ml-6"
-            @click.stop="addComment"
-          >
-            <v-icon>mdi-comment-edit</v-icon>
-          </v-btn>
+          <v-tooltip v-show="$store.getters.isAuthenticated" right color="success">
+            <template #activator="{ on }">
+              <v-btn
+                icon
+                small
+                color="success"
+                class="ml-6"
+                v-on="on"
+                @click.stop="addComment"
+              >
+                <v-icon>mdi-comment-edit</v-icon>
+              </v-btn>
+            </template>
+            <span>Add Comment</span>
+          </v-tooltip>
           <comment-dialog ref="addDialog" :blog="blog" />
           <v-spacer />
-          <v-btn v-if="isMine" icon x-small color="secondary" @click.stop="remove">
+          <v-btn v-if="isMine" icon x-small color="secondary" @click.stop="editBlog">
+            <v-icon>mdi-circle-edit-outline</v-icon>
+          </v-btn>
+          <blog-edit-dialog ref="blogEditDialog" :blog="blog" />
+          <v-btn v-if="isMine" icon x-small color="secondary" @click.stop="removeBlog">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
           <confirm-dialog ref="delDialog" />
         </v-card-actions>
-        <comment-list :comments="comments" />
+        <comment-list ref="commentList" :comments="comments" />
       </div>
     </v-expand-transition>
   </v-card>
@@ -85,7 +94,7 @@ export default {
     })
   },
   methods: {
-    async remove () {
+    async removeBlog () {
       // if (confirm('Are you sure?')) {
       if (await this.$refs.delDialog.open(`Delete "${this.blog.title}"`, 'Are you sure?')) {
         this.$store.dispatch('blogs/remove', this.blog.id)
@@ -93,6 +102,9 @@ export default {
             this.$store.dispatch('snackbar/show', 'Blog deleted!')
           })
       }
+    },
+    editBlog () {
+      this.$refs.blogEditDialog.open()
     },
     addComment () {
       // this.$router.push({ path: '/comment', query: { id: this.blog.id } })
